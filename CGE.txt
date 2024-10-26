@@ -1,0 +1,2 @@
+# Create the CartPole environment
+env = gym.make('CartPole-v1')

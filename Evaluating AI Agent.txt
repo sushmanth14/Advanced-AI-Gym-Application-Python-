@@ -1,0 +1,14 @@
+def evaluate_agent(model, episodes):
+for episode in range(episodes):
+state = env.reset()
+done = False
+total_reward = 0
+
+while not done:
+env.render() # Render the environment
+action = np.argmax(model.predict(state.reshape(1, -1))) # Predict action
+state, reward, done, _ = env.step(action) # Take action
+total_reward += reward
+
+print(f"Evaluation Episode: {episode + 1}, Total Reward: {total_reward}")
+env.close()

@@ -1,0 +1,22 @@
+def train_agent(episodes):
+model = build_model(env.observation_space.shape[0], env.action_space.n)
+for episode in range(episodes):
+state = env.reset()
+done = False
+total_reward = 0
+
+while not done:
+action = np.argmax(model.predict(state.reshape(1, -1))) # Predict action
+next_state, reward, done, _ = env.step(action) # Take action
+total_reward += reward
+
+# Prepare the data for training
+target = reward + 0.95 * np.max(model.predict(next_state.reshape(1, -1)))
+target_f = model.predict(state.reshape(1, -1))
+target_f[0][action] = target
+
+model.fit(state.reshape(1, -1), target_f, epochs=1, verbose=0)
+state = next_state
+
+print(f"Episode: {episode + 1}, Total Reward: {total_reward}")
+return model
